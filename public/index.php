@@ -20,16 +20,6 @@ try {
      */
     include __DIR__ . "/../app/config/services.php";
 
-
-    // Make sure composer dependencies have been installed
-//    require __DIR__ . '/../vendor/autoload.php';
-//    require __DIR__ . '/chat.php';
-//
-//    use Ratchet\Server\IoServer;
-//
-//    $server = IoServer::factory(new App\Handler(), 8123);
-//    $server->run();
-
     /**
      * Handle the request
      */

@@ -1,12 +1,5 @@
 $(document).ready(function () {
 
-    // Then some JavaScript in the browser:
-    //var conn = new WebSocket('ws://chat.dev:8123');
-    //conn.onmessage = function (e) {
-    //    console.log(e.data);
-    //};
-    //conn.send('Hello Me!');
-
     $('.userName').click(function () {
         $('.panel-body ul li').remove();
         $('#userName').text(" ");
