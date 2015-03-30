@@ -5,7 +5,7 @@ return new \Phalcon\Config(array(
         'adapter' => 'Mysql',
         'host' => 'chat.dev',
         'username' => 'root',
-        'password' => '',
+        'password' => 'aaa',
         'dbname' => 'chat',
         'charset' => 'utf8',
     ),
