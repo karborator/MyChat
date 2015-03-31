@@ -1,3 +1,6 @@
+<script type="application/javascript">
+    window.thisUser = "<?php echo $username; ?>"
+</script>
 <strong>Welcome <?php echo $username; ?></strong>
 <?php foreach ($userModel as $user) { ?>
 <ul>

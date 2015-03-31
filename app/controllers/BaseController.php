@@ -18,10 +18,13 @@ class BaseController extends Controller
         ) {
             $auth = $this->session->get('auth');
             $sessionModel = Session::findFirst("session = '$auth'");
+
             if ($sessionModel) {
-                $sessionModel->setSession($this->security->hash($auth))->save();
-                $this->getDi()->getSession()->set('auth', $sessionModel->getSession());
+                //Test
                 $this->userModel = $sessionModel->getUser();
+//                $sessionModel->setSession($this->security->hash($auth))->save();
+//                $this->getDi()->getSession()->set('auth', $sessionModel->getSession());
+//                $this->userModel = $sessionModel->getUser();
             }
         }
     }

@@ -1,41 +1,60 @@
 $(document).ready(function () {
 
+    var sConn = {
+        socket: null,
+        uri: "ws://chat.dev:8080",
+
+        init: function () {
+            this.socket = new WebSocket(this.uri);
+            this.socket.onopen = this.onOpen.bind(this);
+            this.socket.onclose = this.onClose.bind(this);
+            this.socket.onerror = this.onError.bind(this);
+            this.socket.onmessage = this.onMessage.bind(this);
+        },
+
+        onOpen: function (msg, receiverName) {
+            this.socket.send('{"receiverName":"' + receiverName.trim() + '","senderName":"' + window.thisUser + '","message":"' + msg + '"}');
+        },
+        onClose: function (event) {
+            console.log("Close:", event);
+        },
+        onError: function (err) {
+            console.log("Error:", err);
+        },
+        onMessage: function (obj) {
+
+            var res = JSON.parse(obj.data);
+
+            if (res.receiverName === window.thisUser) {
+                buildNewLi('left', res.message, res.senderName);
+            } else if (res.senderName === window.thisUser) {
+                buildNewLi('right', res.message, res.senderName);
+            }
+        }
+    }
+
+    sConn.init();
     $('.userName').click(function () {
         $('.panel-body ul li').remove();
         $('#userName').text(" ");
-
         $.ajax({
             type: "POST",
             url: "/ajax/history",
             data: {username: $(this).text()}
         }).done(function (result) {
             var res = JSON.parse(result);
-
             var username = $(this).text();
             if ($('.chatWith').text().length === 0) {
                 $('.chatWith').append(username);
             }
             buildHistory(res);
         });
-
         $('#userName').append($(this).text());
-        window.setInterval(function () {
-            $.ajax({
-                type: "POST",
-                url: "/ajax/update",
-                data: {username: $('#userName').text()}
-            }).done(function (result) {
-                var res = JSON.parse(result);
-                console.log(res);
-                update(res)
-
-            });
-        }, 1000);
     });
+
 
     $(".send").on("keydown", function (event) {
         if (event.which == 13) {
-
             $.ajax({
                 type: "POST",
                 url: "/ajax/send",
@@ -43,6 +62,7 @@ $(document).ready(function () {
             }).done(function (result) {
                 var res = JSON.parse(result);
                 buildNewLi('right', $(".send").val(), res.sender);
+                sConn.onOpen($(".send").val(), $('#userName').text());
                 $(".send").val(' ');
             });
         }

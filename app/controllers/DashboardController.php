@@ -7,7 +7,8 @@ class DashboardController extends BaseController
     {
         $username = $this->userModel->getUsername();
         $this->view->setVar('userModel', User::find("username != '$username'"));
-        $this->view->setVar('username', $this->userModel->getUsername());
+        $this->view->setVar('username', $username);
     }
+
 }
 

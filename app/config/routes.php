@@ -38,4 +38,9 @@ $router->add('/ajax/update', array(
     'action' => 'update'
 ));
 
+$router->add('/dashboard/start-server', array(
+    'controller' => 'dashboard',
+    'action' => 'startchatserver'
+));
+
 return $router;

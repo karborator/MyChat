@@ -1,7 +1,10 @@
+<script type="application/javascript">
+    window.thisUser = "{{username}}"
+</script>
 <strong>Welcome {{username}}</strong>
 {% for user in userModel %}
 <ul>
-    <li><p class="userName">{{ user.getUsername() }}</p></li>
+    <li><p class="userName">{{user.getUsername()}}</p></li>
 </ul>
 {% endfor %}
 

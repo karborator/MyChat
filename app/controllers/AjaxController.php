@@ -8,7 +8,6 @@ class AjaxController extends BaseController
         $this->view->disable();
         echo json_encode($this->export('history'));
         exit;
-
     }
 
     public function updateAction()
@@ -26,7 +25,6 @@ class AjaxController extends BaseController
         $messageModel->setChannelId($channelId[0]['id'])
             ->setMessage($this->request->getPost('message', 'string'))
             ->setUserId($this->userModel->getUsername());
-
         if ($messageModel->save()) {
             echo json_encode(array('sender' => $messageModel->getUserId()));
         } else {
@@ -42,7 +40,6 @@ class AjaxController extends BaseController
     private function getChannel($username)
     {
         $userModel = User::findFirst("username = '$username'");
-
         if ($userModel) {
             $receiverID = $userModel->getId();
             $senderId = $this->userModel->getId();
