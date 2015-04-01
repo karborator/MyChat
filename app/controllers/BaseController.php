@@ -35,7 +35,6 @@ class BaseController extends Controller
     protected function setErrorMessages($obj)
     {
         foreach ($obj->getMessages() as $msg) {
-
             $this->flashSession->error($msg);
         }
     }

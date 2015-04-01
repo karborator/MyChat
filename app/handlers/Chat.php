@@ -1,11 +1,9 @@
 <?php
 
-use Phalcon\Mvc\Controller;
-
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class ChatController implements MessageComponentInterface
+class Chat implements MessageComponentInterface
 {
 
     protected $connections = [];

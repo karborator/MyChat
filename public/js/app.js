@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    /**
+     * Websockets
+     * @type {{socket: null, uri: string, init: Function, onOpen: Function, onClose: Function, onError: Function, onMessage: Function}}
+     */
     var sConn = {
         socket: null,
         uri: "ws://chat.dev:8080",
@@ -32,8 +36,11 @@ $(document).ready(function () {
             }
         }
     }
-
     sConn.init();
+
+    /**
+     * Make ajax rq to get chat history
+     */
     $('.userName').click(function () {
         $('.panel-body ul li').remove();
         $('#userName').text(" ");
@@ -52,7 +59,9 @@ $(document).ready(function () {
         $('#userName').append($(this).text());
     });
 
-
+    /**
+     * Used to send a new message
+     */
     $(".send").on("keydown", function (event) {
         if (event.which == 13) {
             $.ajax({
@@ -68,14 +77,10 @@ $(document).ready(function () {
         }
     });
 
-    function update(obj) {
-        for (id in obj) {
-            if (obj[id].sender.length > 0) {
-                buildNewLi('left', obj[id].message, obj[id].sender);
-            }
-        }
-    }
-
+    /**
+     * Rend the whole chat history
+     * @param obj
+     */
     function buildHistory(obj) {
         for (id in obj) {
             if (obj[id].sender.length > 0) {
@@ -88,8 +93,13 @@ $(document).ready(function () {
         myscroll.scrollTop(myscroll.get(0).scrollHeight);
     }
 
+    /**
+     * Rend new message.
+     * @param param
+     * @param message
+     * @param name
+     */
     function buildNewLi(param, message, name) {
-
         if (param === 'left') {
             var li = '<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/55C1E7/fff&text=' + name + '" alt="User Avatar" class="img-circle"/></span><div class="chat-body clearfix"><div class="header"><strong class="chatWith primary-font"></strong></div><p>' + message + '</p></div></li>';
         } else if (param === 'right') {

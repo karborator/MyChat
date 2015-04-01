@@ -1,5 +1,10 @@
 <?php
 
+/*
+ * This controller is used to
+ * provide chat history and save new messages
+ */
+
 class AjaxController extends BaseController
 {
 
@@ -7,13 +12,6 @@ class AjaxController extends BaseController
     {
         $this->view->disable();
         echo json_encode($this->export('history'));
-        exit;
-    }
-
-    public function updateAction()
-    {
-        $this->view->disable();
-        echo json_encode($this->export('update'));
         exit;
     }
 
@@ -71,15 +69,12 @@ class AjaxController extends BaseController
                         ->setSenderId($senderId)->save();
                 }
                 $data = $this->chatCore('history', $res);
-            } else if ($exportAction == 'update') {
-                $data = $this->chatCore($exportAction, $res);
             }
         }
         return $data;
     }
 
     /**
-     * Export msg data, different scheme's
      * @param $exportAction
      * @param $res
      * @return array
@@ -87,57 +82,36 @@ class AjaxController extends BaseController
     private function chatCore($exportAction, $res)
     {
         $messages = $res[0]->getMessage()->toArray();
-        if ($exportAction == 'update') {
-            $currentCount = $res[0]->getMessage()->count();
-            if ($this->session->get("msg")['count'] < $currentCount) {
-                $difference = $currentCount - $this->session->get("msg")['count'];
-            }
-
-            for ($v = count($messages) - $difference; $v < count($messages); $v++) {
-                $data[] = $this->getDataArray('update', $messages, $v);
-            }
-
-            if (!empty($data)) {
-                $msg = new Phalcon\Session\Bag('msg');
-                $msg->count = $currentCount;
-                return $data;
-            }
-        } else if ($exportAction == 'history') {
+        if ($exportAction == 'history') {
             $msg = new Phalcon\Session\Bag('msg');
             $msg->count = $res[0]->getMessage()->count();
 
             for ($v = 0; $v < count($messages); $v++) {
-                $data[] = $this->getDataArray('history', $messages, $v);
+                $data[] = $this->getDataArray($messages, $v);
             }
         }
         return $data;
     }
 
-    private function getDataArray($type, $messages, $v)
+    /**
+     * @param $messages
+     * @param $v
+     * @return array
+     */
+    private function getDataArray($messages, $v)
     {
-        if ($type == 'update') {
-            if ($this->userModel->getUsername() != $messages[$v]['username']) {
-                return array(
-                    'sender' => $messages[$v]['username'],
-                    'receiver' => '',
-                    'message' => $messages[$v]['message']
-                );
-            }
-        } else if ($type == 'history') {
-            if ($this->userModel->getUsername() == $messages[$v]['username']) {
-                return array(
-                    'sender' => $messages[$v]['username'],
-                    'receiver' => '',
-                    'message' => $messages[$v]['message']
-                );
-            } else {
-                return array(
-                    'sender' => '',//
-                    'receiver' => $messages[$v]['username'],
-                    'message' => $messages[$v]['message']
-                );
-            }
-
+        if ($this->userModel->getUsername() == $messages[$v]['username']) {
+            return array(
+                'sender' => $messages[$v]['username'],
+                'receiver' => '',
+                'message' => $messages[$v]['message']
+            );
+        } else {
+            return array(
+                'sender' => '',//
+                'receiver' => $messages[$v]['username'],
+                'message' => $messages[$v]['message']
+            );
         }
     }
 }

@@ -10,7 +10,6 @@ class AuthenticateController extends BaseController
         return $this->response->redirect('/index');
     }
 
-
     public function signInAction()
     {
         if ($this->request->isPost()) {
@@ -25,7 +24,6 @@ class AuthenticateController extends BaseController
         }
         return $this->response->redirect('/index');
     }
-
 
     public function signUpAction()
     {
