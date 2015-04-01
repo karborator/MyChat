@@ -1,12 +1,12 @@
 <script type="application/javascript">
-    window.thisUser = "<?php echo $username; ?>"
+    localStorage.setItem("thisUser", "<?php echo $username; ?>");
 </script>
 <strong>Welcome <?php echo $username; ?></strong>
-<?php foreach ($userModel as $user) { ?>
 <ul>
+    <?php foreach ($userModel as $user) { ?>
     <li><p class="userName"><?php echo $user->getUsername(); ?></p></li>
+    <?php } ?>
 </ul>
-<?php } ?>
 
 <div class="container">
     <div class="row">

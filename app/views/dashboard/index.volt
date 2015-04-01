@@ -1,12 +1,12 @@
 <script type="application/javascript">
-    window.thisUser = "{{username}}"
+    localStorage.setItem("thisUser", "{{username}}");
 </script>
 <strong>Welcome {{username}}</strong>
-{% for user in userModel %}
 <ul>
+    {% for user in userModel %}
     <li><p class="userName">{{user.getUsername()}}</p></li>
+    {% endfor %}
 </ul>
-{% endfor %}
 
 <div class="container">
     <div class="row">

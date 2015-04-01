@@ -17,9 +17,6 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="/#" id="themes">
                         Account<span class="caret"></span></a>
                     <ul class="dropdown-menu" aria-labelledby="themes">
-                        <li><a href="/profile">profile settings</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/change-password">change password</a></li>
                         <li><a href="/authenticate/sign-out">sign out</a></li>
                     </ul>
                 </li>

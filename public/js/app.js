@@ -17,7 +17,13 @@ $(document).ready(function () {
         },
 
         onOpen: function (msg, receiverName) {
-            this.socket.send('{"receiverName":"' + receiverName.trim() + '","senderName":"' + window.thisUser + '","message":"' + msg + '"}');
+            var msgObj = {
+                receiverName: receiverName.trim(),
+                senderName: localStorage.getItem('thisUser'),
+                message: msg
+            };
+
+            this.socket.send(JSON.stringify(msgObj));
         },
         onClose: function (event) {
             console.log("Close:", event);
@@ -26,12 +32,12 @@ $(document).ready(function () {
             console.log("Error:", err);
         },
         onMessage: function (obj) {
-
             var res = JSON.parse(obj.data);
 
-            if (res.receiverName === window.thisUser) {
+            //Receiving msg rule
+            if (res.receiverName === localStorage.getItem('thisUser')) {
                 buildNewLi('left', res.message, res.senderName);
-            } else if (res.senderName === window.thisUser) {
+            } else if (res.senderName === localStorage.getItem('thisUser')) {
                 buildNewLi('right', res.message, res.senderName);
             }
         }
